@@ -74,7 +74,8 @@
       <div class="panel panel-default content-main">
           <form name="question" method="post" action="/user/update">
               <div class="form-group">
-                  <input type="hidden" class="form-control" id="userId" name="userId" placeholder="User ID" value="${user.getUserId()}">
+                  <label for="userId">사용자 아이디</label>
+                  <input type="text" class="form-control" id="userId" name="userId" placeholder="User ID" value="${user.getUserId()}" readonly>
               </div>
               <div class="form-group">
                   <label for="password">비밀번호</label>
