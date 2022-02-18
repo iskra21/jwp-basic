@@ -75,15 +75,15 @@
           <form name="question" method="post" action="/user/update">
               <div class="form-group">
                   <label for="userId">사용자 아이디</label>
-                  <input type="hidden" class="form-control" id="userId" name="userId" placeholder="User ID" value="${user.getUserId()}">
+                  <input type="text" class="form-control" id="userId" name="userId" placeholder="User ID" value="${user.getUserId()}" disabled>
               </div>
               <div class="form-group">
                   <label for="password">비밀번호</label>
-                  <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="${user.getPassword()}">
+                  <input type="text" class="form-control" id="password" name="password" placeholder="Password" value="${user.getPassword()}">
               </div>
               <div class="form-group">
                   <label for="name">이름</label>
-                  <input class="form-control" id="name" name="name" placeholder="Name" value="${user.getName()}">
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="${user.getName()}">
               </div>
               <div class="form-group">
                   <label for="email">이메일</label>
