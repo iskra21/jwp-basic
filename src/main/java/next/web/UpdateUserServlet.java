@@ -28,12 +28,13 @@ public class UpdateUserServlet extends HttpServlet {
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		log.debug("userId: {}", req.getParameter("userId"));
+		log.debug("password: {}", req.getParameter("password"));
 		User user = new User(req.getParameter("userId"), req.getParameter("password"), 
 				req.getParameter("name"), req.getParameter("email"));
         log.debug("user : {}", user);
         DataBase.addUser(user);
-        resp.sendRedirect("/user/list");
+        req.getSession().setAttribute("user", user);
+        resp.sendRedirect("/index.jsp");
 	}
 
 }
