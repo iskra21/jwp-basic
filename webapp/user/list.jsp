@@ -59,11 +59,17 @@
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse2">
             <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="../index.html">Posts</a></li>
+                <li class="active"><a href="../index.jsp">Posts</a></li>
+                <c:choose>
+                	<c:when test="${not empty sessionScope.user}">
+                <li><a href="/user/logout" role="button">로그아웃</a></li>
+                <li><a href="/user/updateform" role="button">개인정보수정</a></li>
+					</c:when>
+					<c:otherwise>
                 <li><a href="../user/login.html" role="button">로그인</a></li>
                 <li><a href="../user/form.html" role="button">회원가입</a></li>
-                <li><a href="#" role="button">로그아웃</a></li>
-                <li><a href="#" role="button">개인정보수정</a></li>
+                	</c:otherwise>
+                </c:choose>
             </ul>
         </div>
     </div>
@@ -79,16 +85,27 @@
                 </tr>
                 </thead>
                 <tbody>
-                <c:forEach items="${users}" var="user" varStatus="status">
+                <c:choose>
+                	<c:when test="${not empty sessionScope.user}">
+                <c:forEach items="${users}" var="auser" varStatus="status">
                     <tr>
                         <th scope="row">${status.count}</th>
-                        <td>${user.userId}</td>
-                        <td>${user.name}</td>
-                        <td>${user.email}</td>
-                        <td><a href="/user/updateform?userId=${user.userId}" class="btn btn-success" role="button">수정</a>
+                        <td>${auser.userId}</td>
+                        <td>${auser.name}</td>
+                        <td>${auser.email}</td>
+                        <c:choose>
+                        	<c:when test="${sessionScope.user.userId eq auser.userId}">
+                        <td><a href="../user/update.jsp" class="btn btn-success" role="button">수정</a>
                         </td>
+                        	</c:when>
+                        	<c:otherwise>
+                        <td></td>
+                        	</c:otherwise>
+                        </c:choose>
                     </tr>
                 </c:forEach>
+                	</c:when>
+                </c:choose>
                 </tbody>
             </table>
         </div>

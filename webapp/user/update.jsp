@@ -19,7 +19,7 @@
     <div class="col-md-12">
         <div class="navbar-header">
 
-            <a href="../index.html" class="navbar-brand">SLiPP</a>
+            <a href="../index.jsp" class="navbar-brand">SLiPP</a>
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse1">
                 <i class="glyphicon glyphicon-search"></i>
             </button>
@@ -60,10 +60,16 @@
         <div class="collapse navbar-collapse" id="navbar-collapse2">
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="../index.html">Posts</a></li>
+                <c:choose>
+                	<c:when test="${not empty sessionScope.user}">
+              	<li><a href="/user/logout" role="button">로그아웃</a></li>
+                <li><a href="/user/update" role="button">개인정보수정</a></li>
+                	</c:when>
+                	<c:otherwise>
                 <li><a href="../user/login.html" role="button">로그인</a></li>
                 <li><a href="../user/form.html" role="button">회원가입</a></li>
-                <li><a href="#" role="button">로그아웃</a></li>
-                <li><a href="#" role="button">개인정보수정</a></li>
+                	</c:otherwise>
+                </c:choose>
             </ul>
         </div>
     </div>
@@ -75,19 +81,19 @@
           <form name="question" method="post" action="/user/update">
               <div class="form-group">
                   <label for="userId">사용자 아이디</label>
-                  <input type="text" class="form-control" id="userId" name="userId" placeholder="User ID" value="${user.getUserId()}" readonly>
+                  <input type="text" class="form-control" id="userId" name="userId" placeholder="User ID" value="${sessionScope.user.userId}" readonly>
               </div>
               <div class="form-group">
                   <label for="password">비밀번호</label>
-                  <input type="text" class="form-control" id="password" name="password" placeholder="Password" value="${user.getPassword()}">
+                  <input type="text" class="form-control" id="password" name="password" placeholder="Password" value="${sessionScope.user.password}">
               </div>
               <div class="form-group">
                   <label for="name">이름</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="${user.getName()}">
+                  <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="${sessionScope.user.name}">
               </div>
               <div class="form-group">
                   <label for="email">이메일</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="${user.getEmail()}">
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="${sessionScope.user.email}">
               </div>
               <button type="submit" class="btn btn-success clearfix pull-right">수정</button>
               <div class="clearfix" />
