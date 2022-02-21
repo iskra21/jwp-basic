@@ -1,6 +1,8 @@
 package next.controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebInitParam;
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +22,13 @@ public class DispatcherServlet extends HttpServlet {
 	 */
 	protected void service(HttpServletRequest request, 
 			HttpServletResponse response) throws ServletException, IOException {
-
+		Controller controller = RequestMapping.getController(request.getRequestURI());
+		String direction = controller.execute(request, response);
+		if (direction.startsWith("redirect:")) {
+			response.sendRedirect(direction.substring(9));
+		}
+		RequestDispatcher rd = request.getRequestDispatcher(direction);
+		rd.forward(request, response);
 	}
 
 }
