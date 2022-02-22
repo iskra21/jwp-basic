@@ -22,7 +22,12 @@ public class DispatcherServlet extends HttpServlet {
 	protected void service(HttpServletRequest request, 
 			HttpServletResponse response) throws ServletException, IOException {
 		Controller controller = RequestMapping.getController(request.getRequestURI());
-		String direction = controller.execute(request, response);
+		String direction = "/";
+		try {
+			direction = controller.execute(request, response);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		if (direction.startsWith("redirect:")) {
 			response.sendRedirect(direction.substring(9));
 		}

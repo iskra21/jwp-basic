@@ -6,17 +6,17 @@ import javax.servlet.http.HttpServletResponse;
 import core.db.DataBase;
 import next.model.User;
 
-public class ProfileController implements Controller {
+public class UpdateFormController implements Controller {
 
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         String userId = req.getParameter("userId");
         User user = DataBase.findUserById(userId);
-        if (user == null) {
-            throw new NullPointerException("User is not found.");
+        if (!UserSessionUtils.isSameUser(req.getSession(), user)) {
+            throw new IllegalStateException("You cannot update other user's information.");
         }
         req.setAttribute(UserSessionUtils.USER_SESSION_KEY, user);
-        return "/user/profile.jsp";
+        return "/user/updateForm.jsp";
 	}
 
 }

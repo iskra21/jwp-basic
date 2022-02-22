@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import core.db.DataBase;
 
 public class ListUserController implements Controller {
+	
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		if (!UserSessionUtils.isLogined(req.getSession())) {
