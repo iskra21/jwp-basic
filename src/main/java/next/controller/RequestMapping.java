@@ -8,13 +8,14 @@ public class RequestMapping {
 	
 	static {
 		controllerMap.put("/", new HomeController());
-		controllerMap.put("/user/create", new CreateUserController());
-		controllerMap.put("/user/login", new LoginController());
-		controllerMap.put("/user/logout", new LogoutController());
-		controllerMap.put("/user/list", new ListUserController());
-		controllerMap.put("/user/profile", new ProfileController());
-		controllerMap.put("/user/update", new UpdateUserController());
-		controllerMap.put("/user/updateForm", new UpdateFormController());
+		controllerMap.put("/users/create", new CreateUserController());
+		controllerMap.put("/user/form.jsp", controllerMap.put("/user/login.jsp", new ForwardController()));
+		controllerMap.put("/users/login", new LoginController());
+		controllerMap.put("/users/logout", new LogoutController());
+		controllerMap.put("/users", new ListUserController());
+		controllerMap.put("/users/profile", new ProfileController());
+		controllerMap.put("/users/update", new UpdateUserController());
+		controllerMap.put("/users/updateForm", new UpdateFormController());
 	}
 	
 	public static Controller getController(String url) {

@@ -10,7 +10,7 @@ import core.db.DataBase;
 import next.model.User;
 
 public class CreateUserController implements Controller {
-    private static final Logger log = LoggerFactory.getLogger(_CreateUserController.class);
+    private static final Logger log = LoggerFactory.getLogger(CreateUserController.class);
 
 	@Override
 	public String execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
