@@ -9,7 +9,8 @@ public class RequestMapping {
 	static {
 		controllerMap.put("/", new HomeController());
 		controllerMap.put("/users/create", new CreateUserController());
-		controllerMap.put("/user/form.jsp", controllerMap.put("/user/login.jsp", new ForwardController()));
+		controllerMap.put("/users/loginForm", new ForwardController("/user/login.jsp"));
+		controllerMap.put("/users/form", new ForwardController("/user/form.jsp"));
 		controllerMap.put("/users/login", new LoginController());
 		controllerMap.put("/users/logout", new LogoutController());
 		controllerMap.put("/users", new ListUserController());
