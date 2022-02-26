@@ -11,68 +11,32 @@ import core.jdbc.ConnectionManager;
 import next.model.User;
 
 public class UserDao {
-    public void insert(User user) throws SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        try {
-            con = ConnectionManager.getConnection();
-            String sql = createQueryForInsert();
-            pstmt = con.prepareStatement(sql);
-            setValueForInsert(user, pstmt);
-
-            pstmt.executeUpdate();
-        } finally {
-            if (pstmt != null) {
-                pstmt.close();
-            }
-
-            if (con != null) {
-                con.close();
-            }
-        }
-    }
-    
-    private String createQueryForInsert() {
-		return "INSERT INTO USERS VALUES (?, ?, ?, ?)";
-	}
-
-	void setValueForInsert(User user, PreparedStatement pstmt) throws SQLException {
-    	pstmt.setString(1, user.getUserId());
-    	pstmt.setString(2, user.getPassword());
-    	pstmt.setString(3, user.getName());
-    	pstmt.setString(4, user.getEmail());
-    }
-
-    void setValueForUpdate(User user, PreparedStatement pstmt) throws SQLException {
-    	pstmt.setString(1, user.getPassword());
-    	pstmt.setString(2, user.getName());
-    	pstmt.setString(3, user.getEmail());
-    	pstmt.setString(4, user.getUserId());
-    }
-    
-    String createQueryForUpdate() {
-    	return "UPDATE USERS SET password=?, name=?, email=? WHERE userId=?";
+    public void insert(User user) throws Exception {
+    	JdbcTemplate template = new JdbcTemplate() {
+			@Override
+			public void setValue(PreparedStatement pstmt) throws SQLException {
+		    	pstmt.setString(1, user.getUserId());
+		    	pstmt.setString(2, user.getPassword());
+		    	pstmt.setString(3, user.getName());
+		    	pstmt.setString(4, user.getEmail());
+			}
+    	};
+    	String sql = "INSERT INTO USERS VALUES (?, ?, ?, ?)";
+    	template.executeUpdate(sql);
     }
     
     public void update(User user) throws SQLException {
-        Connection con = null;
-        PreparedStatement pstmt = null;
-        try {
-        	con = ConnectionManager.getConnection();
-        	String sql = createQueryForUpdate();
-        	pstmt = con.prepareStatement(sql);
-        	setValueForUpdate(user, pstmt);
-        	
-        	pstmt.executeUpdate();
-        } finally {
-        	if (pstmt != null) {
-        		pstmt.close();
-        	}
-        	
-        	if (con != null) {
-        		con.close();
-        	}
-        }
+    	JdbcTemplate template = new JdbcTemplate() {
+			@Override
+			void setValue(PreparedStatement pstmt) throws SQLException {
+		    	pstmt.setString(1, user.getPassword());
+		    	pstmt.setString(2, user.getName());
+		    	pstmt.setString(3, user.getEmail());
+		    	pstmt.setString(4, user.getUserId());
+			}
+    	};
+    	String sql = "UPDATE USERS SET password=?, name=?, email=? WHERE userId=?";
+    	template.executeUpdate(sql);
     }
 
     public List<User> findAll() throws SQLException {
