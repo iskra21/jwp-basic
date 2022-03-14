@@ -16,13 +16,37 @@ function addAnswer(e) {
 }
 
 function onSuccess(json, status){
-  var answerTemplate = $("#answerTemplate").html();
-  var template = answerTemplate.format(json.writer, new Date(json.createdDate), json.contents, json.answerId, json.answerId);
-  $(".qna-comment-slipp-articles").prepend(template);
+	var answerTemplate = $("#answerTemplate").html();
+	var template = answerTemplate.format(json.writer, new Date(json.createdDate), json.contents, json.answerId, json.answerId);
+	$(".qna-comment-slipp-articles").prepend(template);
 }
 
 function onError(xhr, status) {
   alert("error");
+}
+
+$(".qna-comment").click(deleteAnswer);
+
+function deleteAnswer(e) {
+	e.preventDefault();
+	
+	var deleteBtn = $(this);
+	var queryString = deleteBtn.closest("form").serialize();
+	
+	$.ajax({
+		type : 'post',
+		url : '/api/qna/deleteAnswer',
+		data : queryString,
+		dataType : 'json',
+		error : function (xhr, status) {
+			alert("error");
+		},
+		success : function (json, status) {
+			if(json.status) {
+				deleteBtn.closest('article').delete();
+			}
+		},
+	});	
 }
 
 String.prototype.format = function() {
