@@ -13,7 +13,6 @@ public class HomeController implements Controller {
     public View execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         QuestionDao questionDao = new QuestionDao();
         req.setAttribute("questions", questionDao.findAll());
-        View view = new JspView("home.jsp");
-        return view;
+        return new JspView("home.jsp");
     }
 }
