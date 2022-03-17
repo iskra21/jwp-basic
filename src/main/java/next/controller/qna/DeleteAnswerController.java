@@ -10,6 +10,7 @@ import core.mvc.Controller;
 import next.dao.AnswerDao;
 import next.model.Result;
 import next.view.JsonView;
+import next.view.ModelAndView;
 import next.view.View;
 
 public class DeleteAnswerController implements Controller {
@@ -17,14 +18,15 @@ public class DeleteAnswerController implements Controller {
 			LoggerFactory.getLogger(DeleteAnswerController.class);
 
 	@Override
-	public View execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+	public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
 		AnswerDao answerDao = new AnswerDao();
 		Long answerId = Long.parseLong(req.getParameter("answerId"));
-		
+
 		answerDao.delete(answerId);
-		req.setAttribute("result", Result.ok());
+		ModelAndView mav = new ModelAndView(new JsonView());
+		mav.addObject("result", Result.ok());
 		
-		return new JsonView();
+		return mav;
 	}
 
 }

@@ -7,17 +7,19 @@ import core.mvc.Controller;
 import next.controller.UserSessionUtils;
 import next.dao.UserDao;
 import next.view.JspView;
+import next.view.ModelAndView;
 import next.view.View;
 
 public class ListUserController implements Controller {
     @Override
-    public View execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+    public ModelAndView execute(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         if (!UserSessionUtils.isLogined(req.getSession())) {
-            return new JspView("redirect:/users/loginForm");
+            return new ModelAndView(new JspView("redirect:/users/loginForm"));
         }
 
+        ModelAndView mav = new ModelAndView(new JspView("/user/list.jsp"));
         UserDao userDao = new UserDao();
-        req.setAttribute("users", userDao.findAll());
-        return new JspView("/user/list.jsp");
+        mav.addObject("users", userDao.findAll());
+        return mav;
     }
 }
