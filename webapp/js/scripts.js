@@ -21,6 +21,9 @@ function onSuccess(json, status){
   var answerTemplate = $("#answerTemplate").html();
   var template = answerTemplate.format(answer.writer, new Date(answer.createdDate), answer.contents, answer.answerId, answer.answerId);
   $(".qna-comment-slipp-articles").prepend(template);
+  if (json.result.status) {
+  	$(".qna-comment-count").html("<p class=\"qna-comment-count\"><strong>"+json.countOfComments+"</strong>개의 의견</p>");
+  }
 }
 
 function onError(xhr, status) {
