@@ -22,12 +22,39 @@ function onSuccess(json, status){
   var template = answerTemplate.format(answer.writer, new Date(answer.createdDate), answer.contents, answer.answerId, answer.answerId);
   $(".qna-comment-slipp-articles").prepend(template);
   if (json.result.status) {
-  	$(".qna-comment-count").html("<p class=\"qna-comment-count\"><strong>"+json.countOfComments+"</strong>개의 의견</p>");
+	var countOfComments = parseInt($(".qna-comment-count").text()) + 1;
+  	$(".qna-comment-count").html("<p class=\"qna-comment-count\"><strong>"+countOfComments+"</strong>개의 의견</p>");
   }
 }
 
 function onError(xhr, status) {
   alert("error");
+}
+
+$(".qna-comment").on("click", ".form-delete", deleteAnswer);
+
+function deleteAnswer(e) {
+	e.preventDefault();
+	
+	var deleteBtn = $(this);
+	var queryString = deleteBtn.closest("form").serialize();
+	
+	$.ajax({
+		type : 'post',
+		url : '/api/qna/deleteAnswer',
+		data : queryString,
+		dataType : 'json',
+		error : function (xhr, status) {
+			alert("error");	
+		},
+		success : function (json, status) {
+			if (json.result.status) {
+				deleteBtn.closest('article').remove();
+				var countOfComments = parseInt($(".qna-comment-count").text()) - 1;
+  				$(".qna-comment-count").html("<p class=\"qna-comment-count\"><strong>"+countOfComments+"</strong>개의 의견</p>");
+			}
+		}	
+	});
 }
 
 String.prototype.format = function() {
