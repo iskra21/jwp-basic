@@ -12,6 +12,7 @@ import core.jdbc.KeyHolder;
 import core.jdbc.PreparedStatementCreator;
 import core.jdbc.RowMapper;
 import next.model.Question;
+import next.model.User;
 
 public class QuestionDao {
     public Question insert(Question question) {
@@ -80,4 +81,11 @@ public class QuestionDao {
         jdbcTemplate.update("UPDATE QUESTIONS SET countOfAnswer = countOfAnswer - 1 WHERE questionId = ?",
         		questionId);
 	}
+	
+    public void update(Question question) {
+        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        String sql = "UPDATE QUESTIONS SET title = ?, contents = ? WHERE questionId = ?";
+        jdbcTemplate.update(sql, question.getTitle(), question.getContents(), question.getQuestionId());
+    }
+
 }
