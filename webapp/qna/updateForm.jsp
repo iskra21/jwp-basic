@@ -17,7 +17,7 @@
               <input type="hidden" class="form-control" id="questionId" name="questionId" value="${question.questionId}"/>
               <div class="form-group">
                   <label for="writer">글쓴이</label>
-                  ${question.writer}
+                  ${username}
                   <input type="hidden" class="form-control" id="writer" name="writer" value="${question.writer}" placeholder="글쓴이"/>
               </div>
               <div class="form-group">
@@ -26,9 +26,9 @@
               </div>
               <div class="form-group">
                   <label for="contents">내용</label>
-                  <textarea name="contents" id="contents" rows="5" class="form-control" value="${question.contents}"></textarea>
+                  <textarea name="contents" id="contents" rows="5" class="form-control">${question.contents}</textarea>
               </div>
-              <button type="submit" class="btn btn-success clearfix pull-right">질문하기</button>
+              <button type="submit" class="btn btn-success clearfix pull-right">수정하기</button>
               <div class="clearfix" />
           </form>
         </div>
