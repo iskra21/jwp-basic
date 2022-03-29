@@ -16,7 +16,7 @@ import next.model.User;
 
 public class QuestionDao {
     public Question insert(Question question) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
         String sql = "INSERT INTO QUESTIONS " + 
                 "(writer, title, contents, createdDate) " + 
                 " VALUES (?, ?, ?, ?)";
@@ -38,7 +38,7 @@ public class QuestionDao {
     }
     
     public List<Question> findAll() {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
         String sql = "SELECT questionId, writer, title, createdDate, countOfAnswer FROM QUESTIONS "
                 + "order by questionId desc";
 
@@ -55,7 +55,7 @@ public class QuestionDao {
     }
 
     public Question findById(long questionId) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
         String sql = "SELECT questionId, writer, title, contents, createdDate, countOfAnswer FROM QUESTIONS "
                 + "WHERE questionId = ?";
 
@@ -71,25 +71,25 @@ public class QuestionDao {
     }
 
 	public void increaseNumOfComments(long questionId) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
         jdbcTemplate.update("UPDATE QUESTIONS SET countOfAnswer = countOfAnswer + 1 WHERE questionId = ?",
         		questionId);
 	}
 
 	public void decreaseNumOfComments(long questionId) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
         jdbcTemplate.update("UPDATE QUESTIONS SET countOfAnswer = countOfAnswer - 1 WHERE questionId = ?",
         		questionId);
 	}
 	
     public void update(Question question) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
         String sql = "UPDATE QUESTIONS SET title = ?, contents = ? WHERE questionId = ?";
         jdbcTemplate.update(sql, question.getTitle(), question.getContents(), question.getQuestionId());
     }
 
 	public void delete(Long questionId) {
-        JdbcTemplate jdbcTemplate = new JdbcTemplate();
+        JdbcTemplate jdbcTemplate = JdbcTemplate.getInstance();
         String sql = "DELETE FROM QUESTIONS WHERE questionId = ?";
         jdbcTemplate.update(sql, questionId);
 	}
