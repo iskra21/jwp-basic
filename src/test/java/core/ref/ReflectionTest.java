@@ -2,6 +2,7 @@ package core.ref;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import org.junit.Test;
@@ -45,9 +46,16 @@ public class ReflectionTest {
     }
     
     @Test
-    public void newInstanceWithConstructorArgs() {
+    public void newInstanceWithConstructorArgs() throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
         Class<User> clazz = User.class;
         logger.debug(clazz.getName());
+        Constructor<User>[] constructors = (Constructor<User>[])clazz.getDeclaredConstructors();
+        if (constructors.length != 0) {
+        	for (int i = 0; i < constructors.length; i++) {
+        		User user = constructors[i].newInstance("iskra21", "dddd", "Hyungjoon", "iskra21@gmail.com");
+        		logger.debug("Constructor[{}]: {}", i, user.toString());
+        	}
+        }
     }
     
     @Test

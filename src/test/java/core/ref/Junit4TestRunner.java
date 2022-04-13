@@ -8,12 +8,6 @@ import java.lang.reflect.Method;
 
 import org.junit.Test;
 
-@Target(ElementType.METHOD)
-@Retention(RetentionPolicy.RUNTIME)
-@interface MyTest {
-	public int value() default 0;
-}
-
 public class Junit4TestRunner {
     @Test
     public void run() throws Exception {
