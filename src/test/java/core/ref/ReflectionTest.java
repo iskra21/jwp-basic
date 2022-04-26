@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -59,8 +60,28 @@ public class ReflectionTest {
     }
     
     @Test
-    public void privateFieldAccess() {
+    public void privateFieldAccess() throws IllegalArgumentException, IllegalAccessException {
         Class<Student> clazz = Student.class;
+        Student student = new Student();
         logger.debug(clazz.getName());
+        Field[] fields = clazz.getDeclaredFields();
+        if (fields.length != 0) {
+        	for (Field field : fields) {
+        		int modifier = field.getModifiers();
+        		String modStr = Modifier.toString(modifier);
+        		logger.debug("Modifier: {}", modStr);
+        		if (!modStr.matches("private")) continue;
+        		field.setAccessible(true);
+        		String fieldName = field.getName();
+        		logger.debug("field Name: {}", fieldName);
+        		if (fieldName.matches("name")) {
+        			field.set(student, "형준");
+        		}
+        		else if (fieldName.matches("age")) {
+        			field.setInt(student, 12);
+        		}
+        	}
+        }
+        logger.debug("student class: {}, {}", student.getName(), student.getAge());
     }
 }
